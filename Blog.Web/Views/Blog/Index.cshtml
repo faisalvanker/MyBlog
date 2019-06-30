@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "My Blog Listing";
+
+}
+
+<h2>Recent Blog Posts</h2>
+
+<div id="app">
+
+    <div class="row" v-for="post in posts">
+        <div class="col-lg-10">
+            <hr />
+            <h4> {{post.Title}}</h4>
+            <p>{{post.Snippet}}</p>
+            <img  alt="image" width="100" height="100" :src="post.ImageUrl" />
+        </div>
+       
+        <div class="col-lg-2">
+            <a class="btn btn-default" :href="post.ViewUrl">View</a>
+            <a class="btn btn-default" :href="post.EditUrl">Edit</a>
+        </div>
+        <br />
+    </div>
+    <br />
+    <a class="btn btn-primary" id="btnMore" type="button" value="more" v-on:click="loadMore();" v-if="!noMoreResults">
+        Load More
+    </a>
+
+</div>
+
+<script type="text/javascript">
+    new Vue({
+
+        el: "#app",
+        data: {
+            posts: [],
+            page: 1,
+            busy: false,
+            noMoreResults: false
+        },
+
+        methods: {
+            loadMore() {
+
+                this.busy = true;
+                axios.get("/Blog/GetPagedResult?page=" + this.page).then(response => {
+                    if (response.data.length === 0) {
+                        this.noMoreResults = true;
+                    }
+
+                    this.posts = this.posts.concat(response.data);
+                    this.page += 1;
+                    this.busy = false;
+                });
+            }
+        },
+
+        created() {
+            this.loadMore();
+        }
+    });
+
+</script>
