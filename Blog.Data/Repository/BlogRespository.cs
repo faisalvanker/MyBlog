@@ -46,7 +46,6 @@ namespace Blog.Data.Repository
         private void AddOrUpdate(Entity.BlogDataModel entity)
         {
             _context.Blog.AddOrUpdate(entity);
-
         }
 
         public void RemoveById(Guid Id)

@@ -41,7 +41,6 @@ namespace Blog.Data.Repository
         public void AddOrUpdate(BlogDataModel entity)
         {
             _context.Set<BlogDataModel>().AddOrUpdate(entity);
-
         }
     }
 }

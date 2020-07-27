@@ -12,7 +12,6 @@ namespace Blog.Web.Controllers
     [Authorize]
     public class BlogController : Controller
     {
-
         public ActionResult Index()
         {
             return View();
@@ -71,11 +70,9 @@ namespace Blog.Web.Controllers
                     ImageId = blog.ImageId,
                     Tags = blog.Tags,
                     Active = blog.Active,
-
                 }
             );
         }
-
 
         [HttpPost]
         public ActionResult Edit(EditBlogViewModels model)
@@ -99,7 +96,6 @@ namespace Blog.Web.Controllers
             return RedirectToAction("Index");
         }
 
-
         /// <summary>
         /// Loads blog posts on the home page using paging. The page size is determined in the webconfig
         /// </summary>
@@ -120,9 +116,7 @@ namespace Blog.Web.Controllers
 
             string contentType = MimeMapping.GetMimeMapping(image.Filename);
             return new FileContentResult(image.Data, contentType);
-
         }
-
 
         #region Private Methods
 

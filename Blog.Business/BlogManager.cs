@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blog.Business.Contracts;
 using Blog.Data;
 using Blog.Data.Entity;
 using Blog.Data.Repository;
@@ -10,7 +11,7 @@ using Blog.Dto;
 
 namespace Blog.Business
 {
-    public class BlogManager
+    public class BlogManager : IBlogManager
     {
         /// <summary>
         /// Creates an active Blog Post together with an image. Defaults to the current date
@@ -78,8 +79,7 @@ namespace Blog.Business
                     Tags = blog.Tags,
                     Active = blog.Active,
                     Author = blog.Author,
-                    LastUpdate=blog.LastUpdate
-                    
+                    LastUpdate = blog.LastUpdate
                 };
             }
         }
@@ -100,7 +100,6 @@ namespace Blog.Business
                     Filename = result.Filename,
                     Data = result.Data
                 };
-
             }
         }
 

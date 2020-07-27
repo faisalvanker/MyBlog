@@ -7,9 +7,7 @@
 <h2>@Html.DisplayFor(model => model.Title)</h2>
 
 <div>
-
     <hr />
-   
 
         <div class="row">
             @Html.Raw(@Model.Post)
@@ -38,11 +36,7 @@
         <div class="row">
             Last Updated:  @Html.DisplayFor(model => model.LastUpdate)
         </div>
-
         <br />
-
     </div>
-</div>
-<p>
-    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-primary" })
-</p>
+
+<p>@Html.ActionLink("Back", "Index", null, new { @class = "btn btn-primary" })</p>
