@@ -59,12 +59,28 @@ namespace Blog.Business
             using (var context = new BlogContext())
             {
                 var repo = new BlogRespository(context);
-                var blog = repo.Page(page, size).ToList();
-                return blog.Select(item => new PagedBlogDto { Id = item.Id, Title = item.Title, Snippet = item.Post.Substring(item.Post.Length < 10 ? item.Post.Length : 10), ImageId = item.ImageId }).ToList();
+                var blogs = repo.Page(page, size).ToList();
+                return ReturnPagedDto(blogs);
             }
         }
 
-        public EditBlogDto LoadBlog(Guid Id)
+        /// <summary>
+        /// Loads 10 Latest blog Post
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        public List<PagedBlogDto> LoadFrontPageBlogPosts()
+        {
+            using (var context = new BlogContext())
+            {
+                var repo = new BlogRespository(context);
+                var blogs = repo.Find(x => x.Active).OrderByDescending(x => x.LastUpdate).Take(10).ToArray();
+
+                return ReturnPagedDto(blogs);
+            }
+        }
+
+        public EditBlogDto LoadBlogById(Guid Id)
         {
             using (var context = new BlogContext())
             {
@@ -118,6 +134,7 @@ namespace Blog.Business
                 blog.Title = dto.Title;
                 blog.Post = dto.Post;
 
+                //only add image, when uploaded
                 if (dto.Image != null)
                 {
                     blog.Image.Filename = dto.Filename;
@@ -132,5 +149,22 @@ namespace Blog.Business
                 context.Commit();
             }
         }
+
+        #region Private Methods
+
+        private List<PagedBlogDto> ReturnPagedDto(IEnumerable<BlogDataModel> blogs)
+        {
+            return blogs.Select(
+               
+                item => new PagedBlogDto 
+                { 
+                    Id = item.Id, 
+                    Title = item.Title, 
+                    Snippet = item.Post.Substring(item.Post.Length < 10 ? item.Post.Length : 10), 
+                    ImageId = item.ImageId 
+                }).ToList();
+        }
+
+        #endregion
     }
 }

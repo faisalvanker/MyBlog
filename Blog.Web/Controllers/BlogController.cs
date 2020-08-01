@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Blog.Business;
 using Blog.Business.Contracts;
 using Blog.Web.Models;
@@ -21,12 +22,25 @@ namespace Blog.Web.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            var blogs = _manager.LoadFrontPageBlogPosts();
+
+            return View(blogs.Select(x =>
+                  new ListBlogViewModels
+                  {
+                      Id = x.Id,
+                      Title = x.Title,
+                      Snippet = x.Snippet,
+                      EditUrl = x.EditUrl,
+                      ImageId = x.ImageId,
+                      ImageUrl = x.ImageUrl,
+                      ViewUrl = x.ViewUrl
+                  }
+              ));
         }
 
         public ActionResult Details(Guid id)
         {
-            var blog = _manager.LoadBlog(id);
+            var blog = _manager.LoadBlogById(id);
 
             return View(
                 new BlogDetailsViewModels
@@ -35,7 +49,7 @@ namespace Blog.Web.Controllers
                     Post = blog.Post,
                     ImageId = blog.ImageId,
                     Tags = blog.Tags == null ? new List<string> { } : blog.Tags.Split(',').ToList(),
-                    Author=blog.Author,
+                    Author = blog.Author,
                     LastUpdate = blog.LastUpdate,
                     Active = blog.Active,
 
@@ -65,7 +79,7 @@ namespace Blog.Web.Controllers
 
         public ActionResult Edit(Guid id)
         {
-            var blog = _manager.LoadBlog(id);
+            var blog = _manager.LoadBlogById(id);
 
             return View(
                 new EditBlogViewModels

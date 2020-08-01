@@ -8,7 +8,8 @@ namespace Blog.Business.Contracts
     {
         void CreateBlogPost(string title, string post, string filename, byte[] image, string tag, string user);
         BlogImageDto GetImageForBlogPost(int imageId);
-        EditBlogDto LoadBlog(Guid Id);
+        EditBlogDto LoadBlogById(Guid Id);
+        List<PagedBlogDto> LoadFrontPageBlogPosts();
         List<PagedBlogDto> LoadBlogPosts(int page, int size);
         void UpdateBlogPost(EditBlogDto dto);
     }
