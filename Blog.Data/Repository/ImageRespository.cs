@@ -6,11 +6,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Remoting.Contexts;
+using Blog.Data.Contracts;
 using Blog.Data.Entity;
 
 namespace Blog.Data.Repository
 {
-    public class ImageRespository 
+    public class ImageRespository : IImageRespository
     {
         private readonly BlogContext _context;
 
@@ -33,14 +34,14 @@ namespace Blog.Data.Repository
             return _context.Set<ImageDataModel>().Where(predicate).ToList();
         }
 
-        public virtual void Add(BlogDataModel entity)
+        public void Add(ImageDataModel entity)
         {
             AddOrUpdate(entity);
         }
 
-        public void AddOrUpdate(BlogDataModel entity)
+        private void AddOrUpdate(ImageDataModel entity)
         {
-            _context.Set<BlogDataModel>().AddOrUpdate(entity);
+            _context.Set<ImageDataModel>().AddOrUpdate(entity);
         }
     }
 }

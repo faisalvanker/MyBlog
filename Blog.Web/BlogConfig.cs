@@ -5,6 +5,9 @@ using System.Web;
 
 namespace Blog.Web
 {
+    /// <summary>
+    /// This is a configuration file that contains settings relvant to the Application
+    /// </summary>
     public static class BlogConfig
     {
         private static int pageSize = 0;

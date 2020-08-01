@@ -5,6 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Autofac;
+using Autofac.Integration.Mvc;
+using Blog.Business;
+using Blog.Business.Contracts;
 
 namespace Blog.Web
 {
@@ -16,6 +20,9 @@ namespace Blog.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            AutofacConfiguration.ConfigAutoFac();
         }
+       
     }
 }

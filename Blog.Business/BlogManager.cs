@@ -50,7 +50,7 @@ namespace Blog.Business
         }
 
         /// <summary>
-        /// Loads blog post on demand. Based on custom paging. Snippet displays the first 50 charactors from the post
+        /// Loads blog post on demand. Based on custom paging. Snippet displays the first 10 charactors from the post
         /// </summary>
         /// <param name="page"></param>
         /// <param name="size"></param>
@@ -60,7 +60,7 @@ namespace Blog.Business
             {
                 var repo = new BlogRespository(context);
                 var blog = repo.Page(page, size).ToList();
-                return blog.Select(item => new PagedBlogDto { Id = item.Id, Title = item.Title, Snippet = item.Post.Substring(10), ImageId = item.ImageId }).ToList();
+                return blog.Select(item => new PagedBlogDto { Id = item.Id, Title = item.Title, Snippet = item.Post.Substring(item.Post.Length < 10 ? item.Post.Length : 10), ImageId = item.ImageId }).ToList();
             }
         }
 

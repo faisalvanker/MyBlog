@@ -52,6 +52,8 @@
     <Compile Include="Entity\Image.cs" />
     <Compile Include="Entity\Blog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Contracts\IBlogRespository.cs" />
+    <Compile Include="Contracts\IImageRespository.cs" />
     <Compile Include="Repository\ImageRespository.cs" />
     <Compile Include="Repository\BlogRespository.cs" />
   </ItemGroup>

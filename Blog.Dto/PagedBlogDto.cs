@@ -12,9 +12,9 @@ namespace Blog.Dto
         public string Title { get; set; }
         public string Snippet { get; set; }
         public int? ImageId { get; set; }
-        public string ImageUrl { get { return string.Format("/Blog/GetImage?ImageId={0}", ImageId); } }
-        public string EditUrl { get { return string.Format("/Blog/Edit/{0}", Id); } }
-        public string ViewUrl { get { return string.Format("/Blog/Details/{0}", Id); } }
+        public string ImageUrl => $"/Blog/GetImage?ImageId={ImageId}";
+        public string EditUrl => $"/Blog/Edit/{Id}";
+        public string ViewUrl => $"/Blog/Details/{Id}";
     }
 }
 

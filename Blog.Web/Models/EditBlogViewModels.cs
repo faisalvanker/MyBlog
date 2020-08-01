@@ -12,7 +12,7 @@ namespace Blog.Web.Models
 
         [Required]
         [Display(Name = "Title of Blog")]
-        [StringLength(200, ErrorMessage = "The Title {0} must be at least {2} characters long.", MinimumLength = 1)]
+        [StringLength(100, ErrorMessage = "{0} must be at between {2} and {1} characters long", MinimumLength = 1)]
         public string Title { get; set; }
 
         [Required]
@@ -25,10 +25,10 @@ namespace Blog.Web.Models
         [DataType(DataType.Upload)]
         public HttpPostedFileBase BlogImage { get; set; }
         public int? ImageId { get; set; }
-        public string ImageUrl { get { return string.Format("/Blog/GetImage?ImageId={0}", ImageId); } }
+        public string ImageUrl => $"/Blog/GetImage?ImageId={ImageId}";
 
         [Display(Name = "Tags")]
-        [StringLength(200, ErrorMessage = "The Tags {0} must be at least {2} characters long.")]
+        [StringLength(200, ErrorMessage = "{0} must be at less than {1} characters long")]
         public string Tags { get; set; }
 
         [Display(Name = "Active")]

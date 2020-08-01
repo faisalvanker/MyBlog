@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Blog.Business;
+using Blog.Business.Contracts;
 using Blog.Web.Models;
 
 namespace Blog.Web.Controllers
@@ -12,6 +13,12 @@ namespace Blog.Web.Controllers
     [Authorize]
     public class BlogController : Controller
     {
+        private readonly IBlogManager _manager;
+
+        public BlogController(IBlogManager manager)
+        {
+            _manager = manager;
+        }
         public ActionResult Index()
         {
             return View();
@@ -19,8 +26,7 @@ namespace Blog.Web.Controllers
 
         public ActionResult Details(Guid id)
         {
-            var manager = new BlogManager();
-            var blog = manager.LoadBlog(id);
+            var blog = _manager.LoadBlog(id);
 
             return View(
                 new BlogDetailsViewModels
@@ -59,8 +65,7 @@ namespace Blog.Web.Controllers
 
         public ActionResult Edit(Guid id)
         {
-            var manager = new BlogManager();
-            var blog = manager.LoadBlog(id);
+            var blog = _manager.LoadBlog(id);
 
             return View(
                 new EditBlogViewModels
@@ -79,9 +84,7 @@ namespace Blog.Web.Controllers
         {
             if (!ModelState.IsValid || (model.BlogImage != null && !IsFileValid(model.BlogImage))) return View();
 
-            var manager = new BlogManager();
-
-            manager.UpdateBlogPost(new Blog.Dto.EditBlogDto
+            _manager.UpdateBlogPost(new Blog.Dto.EditBlogDto
             {
                 Id = model.Id,
                 Title = model.Title,
@@ -104,15 +107,13 @@ namespace Blog.Web.Controllers
         [HttpGet]
         public ActionResult GetPagedResult(int page)
         {
-            var manager = new BlogManager();
-            return Json(manager.LoadBlogPosts(page, BlogConfig.DefaultPageSize), JsonRequestBehavior.AllowGet);
+            return Json(_manager.LoadBlogPosts(page, BlogConfig.DefaultPageSize), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult GetImage(int imageId)
         {
-            var manager = new BlogManager();
-            var image = manager.GetImageForBlogPost(imageId);
+            var image = _manager.GetImageForBlogPost(imageId);
 
             string contentType = MimeMapping.GetMimeMapping(image.Filename);
             return new FileContentResult(image.Data, contentType);

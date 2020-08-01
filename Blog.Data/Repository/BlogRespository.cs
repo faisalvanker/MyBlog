@@ -6,10 +6,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Remoting.Contexts;
+using Blog.Data.Contracts;
 
 namespace Blog.Data.Repository
 {
-    public class BlogRespository
+    public class BlogRespository : IBlogRespository
     {
         private readonly BlogContext _context;
 
@@ -48,9 +49,9 @@ namespace Blog.Data.Repository
             _context.Blog.AddOrUpdate(entity);
         }
 
-        public void RemoveById(Guid Id)
+        public void RemoveById(Guid id)
         {
-            var entity = GetById(Id);
+            var entity = GetById(id);
 
             var dbSet = _context.Set<Entity.BlogDataModel>();
 
